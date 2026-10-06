@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="A birthday surprise with a message, video, and candle wish." />
+  <title>2026</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      overflow-x: hidden;
+      overflow-y: auto;
+      background: radial-gradient(circle at top, #ffdde8, #ffe9f2, #ffd1dc, #17001f);
+    }
+    .font-love { font-family: 'Pacifico', cursive; }
+
+    .heart {
+      position: fixed;
+      bottom: -40px;
+      color: rgba(255, 70, 130, 0.8);
+      animation: floatHeart linear infinite;
+      z-index: 1;
+      pointer-events: none;
+    }
+    @keyframes floatHeart {
+      0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 0; }
+      15% { opacity: 1; }
+      100% { transform: translateY(-115vh) rotate(360deg) scale(1.8); opacity: 0; }
+    }
+
+    .sparkle {
+      position: fixed;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: white;
+      box-shadow: 0 0 15px white;
+      animation: sparkle 2s infinite ease-in-out;
+      z-index: 2;
+      pointer-events: none;
+    }
+    @keyframes sparkle {
+      0%, 100% { transform: scale(0); opacity: 0; }
+      50% { transform: scale(1.3); opacity: 1; }
+    }
+
+    .step {
+      display: none;
+      animation: popIn .8s ease forwards;
+    }
+    .step.active { display: block; }
+    @keyframes popIn {
+      from { opacity: 0; transform: translateY(35px) scale(.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .glass {
+      background: rgba(255, 255, 255, 0.22);
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      box-shadow: 0 25px 60px rgba(121, 0, 65, 0.28);
+    }
+
+    .gift-box {
+      width: 150px;
+      height: 115px;
+      background: linear-gradient(135deg, #ff3f8f, #ff8fb8);
+      border-radius: 18px;
+      position: relative;
+      margin: 0 auto;
+      animation: bounceGift 1.5s infinite;
+      cursor: pointer;
+      box-shadow: 0 20px 45px rgba(255, 45, 130, .45);
+    }
+    .gift-box::before {
+      content: '';
+      position: absolute;
+      width: 28px;
+      height: 115px;
+      background: #fff4b8;
+      left: 61px;
+      top: 0;
+    }
+    .gift-box::after {
+      content: '';
+      position: absolute;
+      width: 170px;
+      height: 28px;
+      background: #fff4b8;
+      left: -10px;
+      top: 42px;
+    }
+    .gift-lid {
+      width: 175px;
+      height: 38px;
+      background: linear-gradient(135deg, #ff1f7a, #ff72aa);
+      border-radius: 16px;
+      position: absolute;
+      top: -35px;
+      left: -12px;
+      transition: .5s ease;
+    }
+    #giftVideo {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+      max-height: 60vh;
+      object-fit: contain;
+    }
+    .gift-box.open .gift-lid {
+      transform: rotate(-25deg) translate(-35px, -45px);
+    }
+    @keyframes bounceGift {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+
+    .balloon {
+      position: absolute;
+      width: 60px;
+      height: 78px;
+      border-radius: 50% 50% 45% 45%;
+      animation: balloonFloat 4s ease-in-out infinite;
+      z-index: 0;
+    }
+    .balloon::after {
+      content: '';
+      position: absolute;
+      width: 2px;
+      height: 90px;
+      background: rgba(255,255,255,.6);
+      left: 50%;
+      top: 76px;
+    }
+    @keyframes balloonFloat {
+      0%,100% { transform: translateY(0) rotate(-3deg); }
+      50% { transform: translateY(-28px) rotate(4deg); }
+    }
+
+    .typing {
+      border-right: 3px solid #ff2e83;
+      white-space: nowrap;
+      overflow: hidden;
+      animation: typing 3.5s steps(40), blink .7s infinite;
+    }
+    @keyframes typing { from { width: 0; } to { width: 100%; } }
+    @keyframes blink { 50% { border-color: transparent; } }
+
+    .cake {
+      position: relative;
+      width: 210px;
+      height: 135px;
+      margin: 0 auto;
+    }
+    .cake-base {
+      position: absolute;
+      bottom: 0;
+      width: 210px;
+      height: 85px;
+      background: linear-gradient(180deg, #ff78ad, #ff2f86);
+      border-radius: 18px 18px 28px 28px;
+      box-shadow: 0 18px 35px rgba(255, 47, 134, .38);
+    }
+    .cake-top {
+      position: absolute;
+      bottom: 70px;
+      width: 210px;
+      height: 40px;
+      background: #fff7fb;
+      border-radius: 50%;
+    }
+    .candle {
+      position: absolute;
+      bottom: 105px;
+      left: 96px;
+      width: 18px;
+      height: 45px;
+      background: repeating-linear-gradient(45deg, #fff, #fff 6px, #ff4d94 6px, #ff4d94 12px);
+      border-radius: 8px;
+    }
+    .flame {
+      position: absolute;
+      bottom: 146px;
+      left: 95px;
+      width: 20px;
+      height: 30px;
+      background: radial-gradient(circle, #fff7a1 20%, #ffb300 60%, #ff4d00 100%);
+      border-radius: 50% 50% 50% 50%;
+      animation: flame .25s infinite alternate;
+      transform-origin: bottom;
+    }
+    @keyframes flame {
+      from { transform: scale(1) rotate(-3deg); }
+      to { transform: scale(1.15) rotate(3deg); }
+    }
+
+    .confetti {
+      position: fixed;
+      top: -20px;
+      width: 10px;
+      height: 16px;
+      animation: confettiFall 3s linear forwards;
+      z-index: 40;
+    }
+    @keyframes confettiFall {
+      to { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+    }
+
+    .shake { animation: shake .45s ease; }
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      25% { transform: translateX(-8px); }
+      75% { transform: translateX(8px); }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex items-center justify-center px-4 text-black relative">
+  <div class="balloon bg-pink-400 left-8 top-20"></div>
+  <div class="balloon bg-purple-400 right-10 top-28" style="animation-delay:1s"></div>
+  <div class="balloon bg-yellow-300 left-1/4 bottom-16" style="animation-delay:2s"></div>
+  <div class="balloon bg-red-400 right-1/4 bottom-20" style="animation-delay:.5s"></div>
+
+  <main class="relative z-10 w-full max-w-3xl">
+    <div class="glass rounded-[2rem] p-6 sm:p-10 text-center min-h-[560px] flex items-center justify-center">
+      <section class="step active w-full" data-step="0">
+        <p class="uppercase tracking-[.35em] text-sm text-black mb-4">A tiny surprise for you</p>
+        <h1 class="font-love text-5xl sm:text-7xl text-black drop-shadow-lg mb-6">Hey MR</h1>
+        <p class="text-lg sm:text-xl text-black/90 max-w-xl mx-auto mb-8">Some days are special, but this one will always hold a little more magic … because it’s the day the world became more beautiful 🌠</p>
+        <button onclick="nextStep()" class="bg-white text-pink-600 px-8 py-4 rounded-full font-bold shadow-xl hover:scale-105 active:scale-95 transition">Open Your Surprise 💝</button>
+      </section>
+
+      <section class="step w-full" data-step="1">
+        <h2 class="font-love text-4xl sm:text-6xl mb-5">Do you want to open the surprise?</h2>
+        <p class="mb-6 text-black/90">Your answer decides the magic.</p>
+        <div class="relative h-72 rounded-3xl bg-white/15 overflow-hidden border border-white/20" id="heartGame">
+          <button id="catchHeart" class="absolute bg-pink-600 text-white px-8 py-4 rounded-full text-2xl font-bold shadow-xl hover:scale-105 transition">Yes</button>
+          <button id="noButton" class="absolute right-8 bottom-8 bg-white/80 text-pink-600 px-5 py-3 rounded-full font-bold shadow-lg hover:scale-105 transition">No</button>
+          <div id="noMessage" class="hidden absolute inset-x-0 bottom-6 mx-auto w-fit bg-white/80 text-pink-700 px-4 py-2 rounded-full text-lg font-semibold shadow-md">Do you think you can 😢</div>
+        </div>
+      </section>
+
+      <section class="step w-full" data-step="2">
+        <p id="giftPrompt" class="mb-10 text-black/90">Tap the gift box gently.</p>
+        <div id="giftBox" class="gift-box" onclick="openGift(this)">
+          <div class="gift-lid"></div>
+        </div>
+        <p id="giftMessage" class="hidden mt-6 mb-6 text-xl font-semibold text-black">A MP4 with the beautiful memories</p>
+        <div id="giftVideoContainer" class="hidden mt-6">
+          <video id="giftVideo" class="mx-auto rounded-2xl shadow-xl" controls playsinline muted preload="metadata">
+            <source src="./birthday-surprise.mp4" type="video/mp4">
+          </video>
+          <p id="videoStatus" class="hidden mt-3 text-sm text-red-700" role="status"></p>
+          <div class="mt-4 flex flex-wrap justify-center gap-3">
+            <button id="enableVideoSound" class="hidden bg-white text-pink-600 px-6 py-3 rounded-full font-bold shadow-xl hover:scale-105 transition">Turn Sound On 🔊</button>
+            <button id="startVideo" class="hidden bg-pink-600 text-white px-6 py-3 rounded-full font-bold shadow-xl hover:scale-105 transition">Play Video With Sound ▶️</button>
+          </div>
+          <div id="videoActions" class="hidden mt-5 flex flex-wrap justify-center gap-4">
+            <button id="replayVideo" class="bg-white text-pink-600 px-6 py-3 rounded-full font-bold shadow-xl hover:scale-105 transition">Play Again ↻</button>
+            <button onclick="continueToCake()" class="bg-pink-600 text-white px-6 py-3 rounded-full font-bold shadow-xl hover:scale-105 transition">Let's Celebrate 🎉</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="step w-full" data-step="3">
+        
+        <div class="cake mb-8">
+          <div class="flame" id="flame"></div>
+          <div class="candle"></div>
+          <div class="cake-top"></div>
+          <div class="cake-base"></div>
+        </div>
+        <p class="mb-6 text-black/90">Click the candle flame to blow it out.</p>
+        <button onclick="blowCandle()" class="bg-pink-600 hover:bg-pink-700 text-black px-8 py-4 rounded-full font-bold shadow-xl transition">Blow Candle 🕯️</button>
+      </section>
+
+      <section class="step w-full" data-step="4">
+        <p class="uppercase tracking-[.35em] text-sm text-pink-100 mb-4">Final Message</p>
+        <h2 class="font-love text-5xl sm:text-7xl mb-6">Happy Birthday, Reshma ❤️</h2>
+        <div class="max-w-2xl mx-auto text-left bg-white/20 rounded-3xl p-6 border border-white/25">
+          <p class="text-lg leading-8 text-black/95">
+            Ahmm… naku em type cheyalo kuda theliyatle. 😅 I just wanted to do something for you, something that would make you smile… and I really hope you loved it. 🫶🏻
+          </p>
+          <p class="text-lg leading-8 text-black/95 mt-4">
+            Maybe this website isn’t perfect, and maybe nenu cheppalanukunna anni words lo pettalekapoyanu… but every little thing here was made with a lot of thought and genuinely meant for you.
+          </p>
+          <p class="text-lg leading-8 text-black/95 mt-4">
+            I don’t know what the future holds, but I’m really glad and lucky that you’re a part of my life. And honestly, I just wish this distance between us disappears soon… because some people are meant to be a little closer than just miles apart.
+          </p>
+          <p class="text-lg leading-8 text-black/95 mt-4">
+            So once again… Happiest Birthday. Keep smiling and keep being the amazing person you are. And whatever name I call you with… I hope you always know that you’re special to me, not because of what I call you, but because of who you are to me. 😊
+          </p>
+          <p class="text-lg leading-8 text-black/95 mt-4">
+            And yeah… I hope this little surprise made your day at least a little more beautiful. ✨
+          </p>
+        </div>
+        <button onclick="restartWish()" class="mt-8 bg-white text-pink-600 px-8 py-4 rounded-full font-bold shadow-xl hover:scale-105 active:scale-95 transition">Replay Magic ✨</button>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    let currentStep = 0;
+    let yesClickCount = 0;
+    const steps = document.querySelectorAll('.step');
+    const catchHeart = document.getElementById('catchHeart');
+    const noButton = document.getElementById('noButton');
+    const heartGame = document.getElementById('heartGame');
+    const noMessage = document.getElementById('noMessage');
+    const giftVideo = document.getElementById('giftVideo');
+    const videoActions = document.getElementById('videoActions');
+    const videoStatus = document.getElementById('videoStatus');
+    const enableVideoSound = document.getElementById('enableVideoSound');
+    const startVideo = document.getElementById('startVideo');
+
+    function showStep(index) {
+      steps.forEach(step => step.classList.remove('active'));
+      steps[index].classList.add('active');
+      currentStep = index;
+      if (index === 1) moveYesButton();
+      if (index === 4) launchConfetti();
+    }
+
+    function nextStep() {
+      showStep(currentStep + 1);
+    }
+
+    function createFloatingHearts() {
+      setInterval(() => {
+        const heart = document.createElement('div');
+        heart.className = 'heart';
+        heart.innerHTML = ['❤️','💖','💕','💗','💘'][Math.floor(Math.random() * 5)];
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.fontSize = (18 + Math.random() * 28) + 'px';
+        heart.style.animationDuration = (4 + Math.random() * 4) + 's';
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 8000);
+      }, 350);
+    }
+
+    function createSparkles() {
+      for (let i = 0; i < 35; i++) {
+        const sp = document.createElement('div');
+        sp.className = 'sparkle';
+        sp.style.left = Math.random() * 100 + 'vw';
+        sp.style.top = Math.random() * 100 + 'vh';
+        sp.style.animationDelay = Math.random() * 3 + 's';
+        document.body.appendChild(sp);
+      }
+    }
+
+    function moveYesButton() {
+      const maxX = heartGame.clientWidth - catchHeart.offsetWidth;
+      const maxY = heartGame.clientHeight - catchHeart.offsetHeight;
+      catchHeart.style.left = Math.random() * maxX + 'px';
+      catchHeart.style.top = Math.random() * maxY + 'px';
+    }
+
+    catchHeart.addEventListener('click', () => {
+      yesClickCount++;
+      if (yesClickCount === 5) {
+        launchConfetti(18);
+        setTimeout(() => showStep(2), 500);
+        return;
+      }
+
+      moveYesButton();
+    });
+
+    noButton.addEventListener('click', () => {
+      noMessage.classList.remove('hidden');
+      noButton.classList.add('hidden');
+      setTimeout(() => {
+        noMessage.classList.add('hidden');
+        noButton.classList.remove('hidden');
+      }, 1800);
+    });
+
+    function openGift(box) {
+      if (box.classList.contains('open')) return;
+      box.classList.add('open');
+      document.getElementById('giftMessage').classList.remove('hidden');
+      launchConfetti(50);
+      setTimeout(() => {
+        document.getElementById('giftPrompt').classList.add('hidden');
+        box.classList.add('hidden');
+        document.getElementById('giftMessage').classList.add('hidden');
+        const videoContainer = document.getElementById('giftVideoContainer');
+        videoContainer.classList.remove('hidden');
+        giftVideo.muted = true;
+        startVideo.classList.remove('hidden');
+        giftVideo.play().then(() => {
+          enableVideoSound.classList.remove('hidden');
+          videoStatus.textContent = 'The video starts muted to allow autoplay. Tap “Turn Sound On” or “Play Video With Sound” for audio.';
+          videoStatus.classList.remove('hidden');
+        }).catch(error => {
+          startVideo.classList.remove('hidden');
+          videoStatus.textContent = error.name === 'NotAllowedError'
+            ? 'Your browser blocked automatic playback. Tap “Play Video With Sound” to start it.'
+            : error.name === 'NotSupportedError'
+              ? 'This browser cannot play the video format. Upload the MP4 alongside this page and open the hosted link.'
+              : 'Playback could not start. Tap “Play Video With Sound” to try again.';
+          videoStatus.classList.remove('hidden');
+        });
+      }, 2500);
+    }
+
+    giftVideo.addEventListener('playing', () => {
+      if (giftVideo.muted) {
+        enableVideoSound.classList.remove('hidden');
+        videoStatus.textContent = 'The video starts muted to allow autoplay. Tap “Turn Sound On” for audio.';
+        videoStatus.classList.remove('hidden');
+      } else {
+        enableVideoSound.classList.add('hidden');
+        videoStatus.classList.add('hidden');
+      }
+    });
+
+    giftVideo.addEventListener('timeupdate', () => {
+      if (giftVideo.currentTime > 0.1) startVideo.classList.add('hidden');
+    });
+
+    giftVideo.addEventListener('ended', () => {
+      enableVideoSound.classList.add('hidden');
+      startVideo.classList.add('hidden');
+      videoActions.classList.remove('hidden');
+    });
+
+    giftVideo.addEventListener('error', () => {
+      videoStatus.textContent = 'The video could not be loaded. Upload birthday-surprise.mp4 in the same folder as index.html, then reopen the hosted link.';
+      videoStatus.classList.remove('hidden');
+      videoActions.classList.remove('hidden');
+      startVideo.classList.remove('hidden');
+    });
+
+    enableVideoSound.addEventListener('click', () => {
+      giftVideo.muted = false;
+      giftVideo.play().then(() => {
+        enableVideoSound.classList.add('hidden');
+        videoStatus.classList.add('hidden');
+      }).catch(() => {
+        giftVideo.muted = true;
+        videoStatus.textContent = 'Tap Play on the video to continue playback with sound.';
+        videoStatus.classList.remove('hidden');
+      });
+    });
+
+    startVideo.addEventListener('click', () => {
+      giftVideo.muted = false;
+      giftVideo.play().then(() => {
+        enableVideoSound.classList.add('hidden');
+        videoStatus.classList.add('hidden');
+      }).catch(() => {
+        videoStatus.textContent = 'The video could not be played. Check your connection and make sure birthday-surprise.mp4 was uploaded beside index.html.';
+        videoStatus.classList.remove('hidden');
+      });
+    });
+
+    document.getElementById('replayVideo').addEventListener('click', () => {
+      videoActions.classList.add('hidden');
+      videoStatus.classList.add('hidden');
+      startVideo.classList.remove('hidden');
+      giftVideo.pause();
+      giftVideo.currentTime = 0;
+      giftVideo.play().catch(() => {
+        startVideo.classList.remove('hidden');
+        videoStatus.textContent = 'Playback did not start. Tap “Play Video With Sound” to try again.';
+        videoStatus.classList.remove('hidden');
+      });
+    });
+
+    function continueToCake() {
+      giftVideo.pause();
+      showStep(3);
+    }
+
+    function blowCandle() {
+      document.getElementById('flame').style.display = 'none';
+      launchConfetti(120);
+      setTimeout(() => showStep(4), 1200);
+    }
+
+    function launchConfetti(amount = 100) {
+      const colors = ['#ff4d94', '#fff176', '#7c4dff', '#00e5ff', '#ffffff', '#ff1744'];
+      for (let i = 0; i < amount; i++) {
+        const c = document.createElement('div');
+        c.className = 'confetti';
+        c.style.left = Math.random() * 100 + 'vw';
+        c.style.background = colors[Math.floor(Math.random() * colors.length)];
+        c.style.animationDelay = Math.random() * 1.2 + 's';
+        c.style.animationDuration = (2 + Math.random() * 2.5) + 's';
+        document.body.appendChild(c);
+        setTimeout(() => c.remove(), 4500);
+      }
+    }
+
+    function restartWish() {
+      yesClickCount = 0;
+      document.getElementById('flame').style.display = 'block';
+      document.getElementById('giftMessage').classList.add('hidden');
+      const giftBox = document.getElementById('giftBox');
+      giftBox.classList.remove('open', 'hidden');
+      document.getElementById('giftPrompt').classList.remove('hidden');
+      document.getElementById('giftVideoContainer').classList.add('hidden');
+      videoActions.classList.add('hidden');
+      videoStatus.classList.add('hidden');
+      enableVideoSound.classList.add('hidden');
+      startVideo.classList.add('hidden');
+      giftVideo.pause();
+      giftVideo.currentTime = 0;
+      giftVideo.muted = true;
+      noButton.classList.remove('hidden');
+      noMessage.classList.add('hidden');
+      showStep(0);
+    }
+
+    createFloatingHearts();
+    createSparkles();
+  </script>
+</body>
+</html>
